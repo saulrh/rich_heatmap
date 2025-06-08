@@ -7,7 +7,7 @@ requires-python = ">=3.10"
 dependencies = ["rich>=14.0.0"]
 authors = [{ name = "Saul Reynolds-Haertle", email = "saul+pypi@saulrh.com" }]
 license = "MIT"
-license-files = "LICENSE"
+license-files = ["LICENSE"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
