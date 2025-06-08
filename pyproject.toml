@@ -1,10 +1,10 @@
 [project]
 name = "rich-heatmap"
-version = "0.1.1"
+version = "0.1.2"
 description = "A simple rich renderable Heatmap."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["rich>=14.0.0"]
+dependencies = ["rich>=10.0.0"]
 authors = [{ name = "Saul Reynolds-Haertle", email = "saul+pypi@saulrh.com" }]
 license = "MIT"
 license-files = ["LICENSE"]
