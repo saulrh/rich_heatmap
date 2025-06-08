@@ -18,8 +18,6 @@ jobs:
         cache-dependency-glob: "uv.lock"
     - name: Set up Python
       run: uv python install
-      with:
-        python-version-file: "pyproject.toml"
     - name: Build a wheel and a source tarball
       run: uv build
     - name: Store the distribution packages
