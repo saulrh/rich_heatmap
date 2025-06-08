@@ -47,9 +47,11 @@ And then print a `Heatmap` containing those cells:
 print(heatmap.Heatmap(cells=cells, colormap=colormap))
 ```
 
+Row and column values will be sorted before printing, so you can
+accumulate a stream of data and feed it in without any more trouble:
+
 ![Heatmap example image](images/numbers.png)
 
-If you don't provide text, the library will give you a rectangular
-cell instead of a number:
+If you don't provide text, the library will produce rectangular cells:
 
 ![Heatmap example image](images/blobs.png)
