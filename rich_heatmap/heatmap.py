@@ -34,7 +34,7 @@ class HeatmapCell(Generic[R, C]):
 def _default_colormap(value: float):
     return rich.color.Color.from_rgb(
         255 * value,
-        255 * (1 - value),
+        0,
         0,
     )
 
@@ -118,12 +118,13 @@ class Heatmap(rich.table.Table, Generic[R, C]):
                 cell = self._cells[row_value, col_value]
                 scale = (cell.value - min_value) / (max_value - min_value)
                 color = self._colormap(scale)
-                style = rich.style.Style(color=color)
                 if cell.text is None:
-                    text = "█" * self._cell_width
+                    style = rich.style.Style(color=color, bgcolor=color)
+                    text = "█" * (self._cell_width or 1)
                 else:
+                    style = rich.style.Style(color=color)
                     text = cell.text
-                strs.append(rich.text.Text.assemble((text, style)))
+                strs.append(rich.text.Text(text, style))
             tab.add_row(*strs)
 
         return tab

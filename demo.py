@@ -3,6 +3,8 @@ import click
 from rich import print
 import matplotlib
 import rich
+import itertools
+import cmasher  # noqa: F401
 
 from rich_heatmap import heatmap
 
@@ -24,17 +26,11 @@ def main(numbers: bool, colormap: str):
         )
 
     cells = []
-    for row in range(30):
-        for col in range(20):
-            value = noise.snoise2(col / 10, row / 15)
-            cells.append(
-                heatmap.HeatmapCell(
-                    row=row,
-                    col=col,
-                    value=value,
-                    text=f"{value:0.1f}" if numbers else None,
-                )
-            )
+    for row, col in itertools.product(range(30), range(20)):
+        value = noise.snoise2(col / 10, row / 15)
+        cells.append(
+            heatmap.HeatmapCell(row, col, value, f"{value:0.1f}" if numbers else None)
+        )
 
     print(
         heatmap.Heatmap(
