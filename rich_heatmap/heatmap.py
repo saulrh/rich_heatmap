@@ -4,6 +4,7 @@ import rich.console
 import rich.table
 import rich.layout
 import rich.text
+import math
 from typing import Callable, Iterable, Generic, Optional, TypeVar
 
 R = TypeVar("R")
@@ -82,11 +83,11 @@ class Heatmap(rich.table.Table, Generic[R, C]):
 
     def _min_value(self) -> float:
         """Minimum value over all cells in the map"""
-        return min(hc.value for hc in self._cells.values())
+        return min((hc.value for hc in self._cells.values()), default=0)
 
     def _max_value(self) -> float:
         """Maximum value over all cells in the map"""
-        return max(hc.value for hc in self._cells.values())
+        return max((hc.value for hc in self._cells.values()), default=math.inf)
 
     def __rich__(self) -> rich.table.Table:
         spc = self._cell_spacing if self._cell_spacing is not None else 0
@@ -115,16 +116,19 @@ class Heatmap(rich.table.Table, Generic[R, C]):
             if self._show_header:
                 strs.append(str(row_value))
             for col_value in self._col_values():
-                cell = self._cells[row_value, col_value]
-                scale = (cell.value - min_value) / (max_value - min_value)
-                color = self._colormap(scale)
-                if cell.text is None:
-                    style = rich.style.Style(color=color, bgcolor=color)
-                    text = "█" * (self._cell_width or 1)
+                if (row_value, col_value) in self._cells:
+                    cell = self._cells[row_value, col_value]
+                    scale = (cell.value - min_value) / (max_value - min_value)
+                    color = self._colormap(scale)
+                    if cell.text is None:
+                        style = rich.style.Style(color=color, bgcolor=color)
+                        text = "█" * (self._cell_width or 1)
+                    else:
+                        style = rich.style.Style(color=color)
+                        text = cell.text
+                    strs.append(rich.text.Text(text, style))
                 else:
-                    style = rich.style.Style(color=color)
-                    text = cell.text
-                strs.append(rich.text.Text(text, style))
+                    strs.append("")
             tab.add_row(*strs)
 
         return tab
