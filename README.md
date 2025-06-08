@@ -28,7 +28,7 @@ for row, col in itertools.product(range(30), range(20)):
 ```
 
 Values will be normalized into `[0, 1]` and then mapped to a color
-using the colormap function:
+using a colormap function:
 
 ```python
 EMBER = matplotlib.colormaps['cmr.ember']
